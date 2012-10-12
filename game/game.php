@@ -1,75 +1,95 @@
 <?php
 require_once('../include/firephp_include.php');
 include("Player.php");
+include("Card.php");
+include("BallDeliveryEvent.php");
+
 $GLOBALS['firebug']->info('Debugging using FirePHP');
 
-$bowler = new Player("Sumeet");
-$bowler->level["bt"] = 1;
-$bowler->level["bo"] = 1;
-$bowler->addSkill("offSpin","bo");
-$bowler->addSkill("fielder","g");
 
-$batsman = new Player("Satish");
-$batsman->name = "Satish";
-$batsman->level["bt"] = 1;
-$batsman->level["bo"] = 1;
-$batsman->addSkill("onDrive","bt");
-$batsman->addSkill("fielding","g");
+//################# HARD CODED VALUES #######################
+	$batsmanCard = new Card("Batsman Delight","bt");
+	$batsmanCard->setBallDeliveryEvent("1",new BallDeliveryEvent("s,*,1.3"));
+	$batsmanCard->setBallDeliveryEvent("6",new BallDeliveryEvent("s,=,6"));
+	
+	$bowlerCard = new Card("Bowlzinger","bo");
+	$bowlerCard->setBallDeliveryEvent("1",new BallDeliveryEvent("s,=,W"));
+	$bowlerCard->setBallDeliveryEvent("2",new BallDeliveryEvent("s,+,2"));
+	$bowlerCard->setBallDeliveryEvent("3",new BallDeliveryEvent("s,=,0"));
+	$bowlerCard->setBallDeliveryEvent("4",new BallDeliveryEvent("s,+,2"));
+	$bowlerCard->setBallDeliveryEvent("5",new BallDeliveryEvent("s,=,0"));
+	$bowlerCard->setBallDeliveryEvent("6",new BallDeliveryEvent("s,+,2"));
+	
+	$bowler = new Player("Sumeet");
+	$bowler->card = $bowlerCard;
+	$bowler->level["bt"] = 1;
+	$bowler->level["bo"] = 1;
+	$bowler->addSkill("offSpin","bo");
+	$bowler->addSkill("fielder","g");
+	
+	$batsman = new Player("Satish");
+	$batsman->card = $batsmanCard;
+	$batsman->level["bt"] = 1;
+	$batsman->level["bo"] = 1;
+	$batsman->addSkill("onDrive","bt");
+	$batsman->addSkill("fielding","g");
+	
+	$performanceResultArr = array("0:100"=>"6",
+							   "10:90"=>"6",
+							   "20:80"=>"4",
+							   "30:70"=>"4",
+							   "40:60"=>"3",
+							   "50:50"=>"2",
+							   "60:40"=>"1",
+							   "70:30"=>"0",
+							   "80:20"=>"W",
+							   "90:10"=>"W",
+							   "100:0"=>"W",
+								);
+	$advantageArr = array("offSpin"=>array("coverDrive",
+											"squareCut",
+											"straightDrive",
+											"lateCut",
+											"noSkill"),
+							"legSpin"=>array("onDrive",
+											"pull",
+											"straightDrive",
+											"legGlance",
+											"noSkill"),
+							"topSpin"=>array("pull",
+											"squareCut",
+											"legGlance",
+											"defence",
+											"noSkill"),
+							"slow"=>array("onDrive",
+											"defence",
+											"straightDrive",
+											"lateCut",
+											"noSkill"),
+							"inSwing"=>array("coverDrive",
+											"squareCut",
+											"defence",
+											"lateCut",
+											"noSkill"),
+							"outSwing"=>array("onDrive",
+											"pull",
+											"legGlance",
+											"defence",
+											"noSkill"),
+							"bouncer"=>array("onDrive",
+											"coverDrive",
+											"straightDrive",
+											"legGlance",
+											"noSkill"),
+							"yorker"=>array("pull",
+											"coverDrive",
+											"squareCut",
+											"lateCut",
+											"noSkill"),
+							"noSkill"=>array()
+						);
 
-$performanceResultArr = array("0:100"=>"6",
-						   "10:90"=>"6",
-						   "20:80"=>"4",
-						   "30:70"=>"4",
-						   "40:60"=>"3",
-						   "50:50"=>"2",
-						   "60:40"=>"1",
-						   "70:30"=>"0",
-						   "80:20"=>"W",
-						   "90:10"=>"W",
-						   "100:0"=>"W",
-							);
-$advantageArr = array("offSpin"=>array("coverDrive",
-										"squareCut",
-										"straightDrive",
-										"lateCut",
-										"noSkill"),
-						"legSpin"=>array("onDrive",
-										"pull",
-										"straightDrive",
-										"legGlance",
-										"noSkill"),
-						"topSpin"=>array("pull",
-										"squareCut",
-										"legGlance",
-										"defence",
-										"noSkill"),
-						"slow"=>array("onDrive",
-										"defence",
-										"straightDrive",
-										"lateCut",
-										"noSkill"),
-						"inSwing"=>array("coverDrive",
-										"squareCut",
-										"defence",
-										"lateCut",
-										"noSkill"),
-						"outSwing"=>array("onDrive",
-										"pull",
-										"legGlance",
-										"defence",
-										"noSkill"),
-						"bouncer"=>array("onDrive",
-										"coverDrive",
-										"straightDrive",
-										"legGlance",
-										"noSkill"),
-						"yorker"=>array("pull",
-										"coverDrive",
-										"squareCut",
-										"lateCut",
-										"noSkill"),
-						"noSkill"=>array()
-					);
+//################# HARD CODED VALUES #######################
 
 function init()
 {
