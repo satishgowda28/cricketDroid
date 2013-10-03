@@ -7,6 +7,7 @@ class Player
 	public $level = array();
 	public $skill = array();
 	public $name;
+	public $card;
 	
 	public function __construct($_name)
 	{
